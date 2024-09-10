@@ -1,0 +1,80 @@
+The programm is designed to run on a linux machine using the Advanced Linux Sound Architecture (ALSA) 
+for audio handling.
+
+Libraries:
+To run the programm you need to install the following three libraries:
+    - libasound2-dev
+    - fftw
+    - portaudio
+
+
+
+1. libasound2-dev:
+    Is required for software that makes use of the ALSA library.
+
+    It can be downloaded as a package for example from APT.
+    APT command: sudo apt-get install libasound2-dev
+
+
+
+2. fftw:
+    Needed to perform the discrete Fourier transform which is needed for the filters.
+
+    It can be downloaded on their website (https://www.fftw.org/download.html). The recommended version 
+    is 3.3.10 since fftw-3.3.10 was used during development.
+    Follow the steps on their website to get the library up and running 
+    (https://www.fftw.org/fftw3_doc/Installation-on-Unix.html).
+
+
+
+3. portaudio
+    Is a library that automatically handles the ALSA device setup for the program.
+
+    It can be downloaded on their website (https://files.portaudio.com/download.html). The recommended
+    version is v190700_20210406 since it was used during development.
+    Setup the library using their documentation 
+    (https://files.portaudio.com/docs/v19-doxydocs/compile_linux.html).
+
+    The portaudio folder is needed for compiling the voice changer so don't forget where you 
+    saved it.
+
+
+GUI:
+Qt was used for the GUI (version: Qt 6.7.2).
+
+1. Download Qt
+    You need to install the open source variant (https://www.qt.io/download-open-source) and start the setup process.
+    (chmod +x <filename>.run makes the downloaded run file executable)
+
+2. Create Qt account
+
+3. Downloaded recommended librarys
+
+    sudo apt-get install build-essential libgl1-mesa-dev
+    source: https://doc.qt.io/qt-6/linux.html
+
+    sudo apt-get install libfontconfig1-dev libfreetype-dev libx11-dev libx11-xcb-dev libxext-dev libxfixes-dev libxi-dev libxrender-dev libxcb1-dev libxcb-cursor-dev libxcb-glx0-dev libxcb-keysyms1-dev libxcb-image0-dev libxcb-shm0-dev libxcb-icccm4-dev libxcb-sync-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-render-util0-dev libxcb-util-dev libxcb-xinerama0-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev
+    source: https://doc.qt.io/qt-6/linux-requirements.html
+
+4. Open the Project
+    Qt Kit used during development: Qt 6.7.2, gcc-12 and g++-12
+    Open Qt Creator and choose "open project" on the welcome page. Navigate to the project folder and select the VoiceChanger.pro file.
+    Then you need to choose a kit which contains the Qt version and compilers used by Qt.
+    The header, source and form files should be seperated into their own folders in the project view on the left of the Qt Creator.
+    The last step is to include portaudio as an external library. For that right click on the VoiceChanger folder in the hierarchy on the left.
+    Select "add library" and choose external library. You can find the library file in the portaudio directory that you installed previously under
+    <path to lib folder>/portaudio/lib/.libs/libportaudio.a and the include path is <path to lib folder>portaudio/include.
+
+
+
+Compiling:
+After setting up the project you need to compile it using the Qt Creator GUI (bottom left) and also start it there.
+After that you can always start and compile the application via the terminal. You can find the application in you project folder
+under build/Desktop_Qt_6_7_2-Debug.
+Terminal commands:  make            //to compile
+                    make clean
+                    ./VoiceChanger  //to start the application
+
+
+If the audio stream doesn't start and you get an underrun error then you need to increase the buffer size from 512 to 2024.
+You can find the buffer size in Constants.h under the name FRAMES_PER_BUFFER.
